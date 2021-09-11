@@ -1,0 +1,41 @@
+{
+    "_comment": "This is a samle setting file",
+    "xrange": [
+        -3.0,
+        3
+    ],
+    "yrange": [
+        -3.0,
+        3.0
+    ],
+    "alpha": 0.25,
+    "break": 2000,
+    "x0": [
+        0.91943965,
+        1.36581546
+    ],
+    "params": [
+        -2.702,
+        1.02,
+        1.04,
+        0.67318,
+        3
+    ],
+    "dparams": [
+        0.1,
+        0.1,
+        0.1,
+        0.1
+    ],
+    "period": 1,
+    "sigma": 0,
+    "omega": -1,
+    "inc_param": 3,
+    "var_param": 0,
+    "delta_inc": 0.001,
+    "inc_iter": 100,
+    "max_iter": 32,
+    "dif_strip": 1e-08,
+    "eps": 1e-08,
+    "explode": 1000
+}
