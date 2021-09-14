@@ -126,8 +126,8 @@ def jac_newton(ds):
 def det_derivative(A, dA, ds):
     temp = np.zeros((ds.xdim, ds.xdim))
     ret = 0
-    for i in range(0, ds.xdim):
-        temp = A
-        temp[0:ds.xdim, i] = dA[:, i]
+    for i in range(ds.xdim):
+        temp = A.copy()
+        temp[:, i] = dA[:, i]
         ret += np.linalg.det(temp)
     return ret
