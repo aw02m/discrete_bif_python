@@ -97,11 +97,8 @@ def dTldxdx(ds):
             elif(j < i):
                 ds.bkwd_prod[i] = ds.bkwd_prod[i] @ ds.dTdx[j]
 
-    for i in range(ds.xdim):
-        for j in range(ds.period):
-            ret[i] += ds.frwd_prod[j] @ ds.dTdxdx[j][i] @ ds.bkwd_prod[j] @ ds.bkwd_prod[j]
-    # for i in range(ds.period):
-    #     ret += ds.frwd_prod[i] @ ds.dTdxdx[i] @ ds.bkwd_prod[i] @ ds.bkwd_prod[i]
+    for i in range(ds.period):
+        ret += ds.frwd_prod[i] @ ds.dTdxdx[i] @ ds.bkwd_prod[i] @ ds.bkwd_prod[i]
 
     return ret
 
@@ -112,9 +109,7 @@ def dTldxdlambda(ds):
 
     ret = ds.dTdxdlambda[0]
     for i in range(1, ds.period):
-        for j in range(ds.xdim):
-            temp[:, j] = ds.dTdxdx[i][j] @ ds.bkwd_prod[i] @ ds.dTkdlambda[i]
-        # temp = ds.dTdxdx[i] @ ds.bkwd_prod[i] @ ds.dTkdlambda[i]
+        temp = ds.dTdxdx[i] @ ds.bkwd_prod[i] @ ds.dTkdlambda[i]
         ret = temp + ds.dTdx[i] @ ret + ds.dTdxdlambda[i] @ ds.bkwd_prod[i]
 
     return ret
@@ -134,9 +129,6 @@ def func_newton(ds):
 def jac_newton(ds):
     ret = np.zeros((ds.xdim+2, ds.xdim+2))
 
-    # dchidx = np.zeros(ds.xdim, dtype=np.complex)
-    # for i in range(ds.xdim):
-    #     dchidx[i] = det_derivative(ds.chara_poly, ds.dTldxdx[i], ds)
     dchidx = np.array([det_derivative(ds.chara_poly, ds.dTldxdx[i], ds)
                       for i in range(ds.xdim)])
     dchidlambda = det_derivative(ds.chara_poly, ds.dTldxdlambda, ds)
@@ -161,8 +153,8 @@ def jac_newton(ds):
 
 def det_derivative(A, dA, ds):
     ret = 0+0j
-    for i in range(0, ds.xdim):
-        temp = A
+    for i in range(ds.xdim):
+        temp = A.copy()
         temp[:, i] = dA[:, i]
         ret += np.linalg.det(temp)
     return ret
